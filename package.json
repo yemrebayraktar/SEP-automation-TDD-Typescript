@@ -1,0 +1,20 @@
+{
+  "name": "sep-automation-tdd-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "tests": "npx playwright test",
+    "test:specific": "npx playwright test --grep file-name.spec.ts",
+    "test:tag": "npx playwright test --grep @sep25",
+    "report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.0.13"
+  }
+}
