@@ -43,4 +43,4 @@ jobs:
           echo "SEP_QA_URL=${{ secrets.SEP_QA_URL }}" >> $GITHUB_ENV
 
       - name: Run Playwright tests (TDD, no Cucumber)
-        run: npm run test
+        run: npm run tests
