@@ -1,0 +1,46 @@
+name: Regression Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  schedule:
+    - cron: "0 23 * * *" # Runs at 23:00 UTC (6 PM EST)
+  workflow_dispatch:
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chrome
+        run: npx playwright install --with-deps chromium
+
+      - name: Configure environment variables from secrets
+        run: |
+          echo "SEP_USERNAME=${{ secrets.SEP_USERNAME }}" >> $GITHUB_ENV
+          echo "SEP_PASSWORD=${{ secrets.SEP_PASSWORD }}" >> $GITHUB_ENV
+          echo "SEP_QA_URL=${{ secrets.SEP_QA_URL }}" >> $GITHUB_ENV
+
+      - name: Run Playwright tests (TDD, no Cucumber)
+        run: npm run test
